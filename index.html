@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recommendation System</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="RecoLab brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6.5C4 5.12 5.12 4 6.5 4H9v16H6.5A2.5 2.5 0 0 1 4 17.5z"></path>
+            <path d="M20 6.5C20 5.12 18.88 4 17.5 4H15v16h2.5a2.5 2.5 0 0 0 2.5-2.5z"></path>
+            <path d="M9 7h6"></path>
+            <path d="M9 12h6"></path>
+            <path d="M9 17h6"></path>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <h1>Movie Recommender</h1>
+          <p>Cinematic Filtering Engine</p>
+        </div>
+      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"></button>
+    </header>
+
+    <main id="main-content" class="layout">
+      <section class="panel main-panel">
+        <div class="panel-inner">
+          <div class="hero">
+            <span class="eyebrow">Recommending Movies</span>
+            <h2>Suggest better movies using user taste & similar viewers.</h2>
+            <p>This engine blends two powerful methods: comparing item features (genres, moods) and mirroring the tastes of users with similar viewing patterns.</p>
+            <div class="stats" aria-label="Summary statistics">
+              <article class="stat-card">
+                <span>Total Movies</span><strong id="stat-items">250</strong>
+              </article>
+              <article class="stat-card">
+                <span>Engine Type</span><strong class="text-gradient">Hybrid</strong>
+              </article>
+            </div>
+          </div>
+
+          <div class="controls">
+            <section class="ui-card">
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Pick your favorite genres</span>
+                  <p class="helper-text">Select signals to calibrate your core taste profile. (Updates instantly!)</p>
+                </div>
+              </div>
+              <div class="genre-grid" id="genre-grid"></div>
+            </section>
+
+            <section class="ui-card"> 
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Tune preference vectors</span>
+                  <p class="helper-text">These values dictate the content-based similarity score.</p>
+                </div>
+              </div>
+              <div class="controls slider-stack">
+                <div class="range-row">
+                  <div class="range-header"><label for="adventure-range">Adventure</label><strong id="adventure-value">65</strong></div>
+                  <input id="adventure-range" type="range" min="0" max="100" value="65" />
+                </div>
+                <div class="range-row">
+                  <div class="range-header"><label for="romance-range">Romance</label><strong id="romance-value">20</strong></div>
+                  <input id="romance-range" type="range" min="0" max="100" value="20" />
+                </div>
+                <div class="range-row">
+                  <div class="range-header"><label for="comedy-range">Comedy</label><strong id="comedy-value">35</strong></div>
+                  <input id="comedy-range" type="range" min="0" max="100" value="35" />
+                </div>
+                <div class="range-row">
+                  <div class="range-header"><label for="intensity-range">Intensity</label><strong id="intensity-value">65</strong></div>
+                  <input id="intensity-range" type="range" min="0" max="100" value="65" />
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Rate a few movies</span>
+                  <p class="helper-text">This trains the collaborative filtering model.</p>
+                </div>
+              </div>
+              <div class="picked-list" id="picked-list"></div>
+            </section>
+
+            <div class="actions">
+              <button class="primary-btn" id="recommend-btn" type="button">Generate Recommendations</button>
+              <button class="secondary-btn" id="reset-btn" type="button">Reset filter</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-stack">
+        <section class="panel glow-panel">
+          <div class="panel-inner">
+            <div class="section-title">
+              <div>
+                  <span class="eyebrow">Top recommendations</span>
+                  <p class="helper-text">Ranked by combined hybrid scoring.</p>
+              </div>
+            </div>
+            <div class="recommendations" id="recommendations"></div>
+          </div>
+          <div class="footer-note" id="status-line">Awaiting input...</div>
+        </section>
+
+        <section class="panel explain-panel">
+          <div class="panel-inner explain-card">
+            <div class="section-title"><div><span class="eyebrow">How this works</span></div></div>
+            <ul>
+              <li><strong>Content-based:</strong> Strictly matches chosen genres and compares sliders to item metadata.</li>
+              <li><strong>Collaborative:</strong> Locates demo viewers who highly rate the same titles you do.</li>
+              <li><strong>Hybrid output:</strong> A weighted matrix of both signals for maximum accuracy.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-inner">
+            <div class="section-title">
+              <div>
+                <span class="eyebrow">Viewer Proximity</span>
+                <p class="helper-text">Users closest to your current vector.</p>
+              </div>
+            </div>
+            <div class="similar-users" id="similar-users"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-inner">
+            <div class="section-title">
+              <div>
+                <span class="eyebrow">Active Catalog</span>
+                <p class="helper-text">Titles currently loaded in memory.</p>
+              </div>
+            </div>
+            <div class="catalog-list" id="catalog-list"></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+    <footer class="app-footer">
+      <p>Created by <span>Xplok</span> <span class="footer-separator">•</span> Recommendation-System </p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
